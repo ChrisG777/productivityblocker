@@ -1,0 +1,12 @@
+{
+  "name": "Productivity Site Blocker",
+  "description": "sets a timer when you go on unproductive websites",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": ["storage", "alarms", "tabs", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+  }
+  },
+  "options_page": "options.html"
+}
