@@ -1,3 +1,1 @@
-function blockpage() {
-	alert("Page has been blocked!");
-}
+alert("Page has been blocked!");
