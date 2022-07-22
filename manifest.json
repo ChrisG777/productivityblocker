@@ -7,6 +7,7 @@
   "action": {
     "default_popup": "popup.html"
   },
+  "host_permissions": ["https://*/*"],
   "options_page": "options.html",
   "content_scripts": [ 
     {

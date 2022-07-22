@@ -15,7 +15,3 @@ function doToggleAlarm() {
 }
 
 $('#toggleAlarm').on('click', doToggleAlarm);
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     alarmClock.setup();
-// });

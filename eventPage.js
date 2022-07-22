@@ -1,22 +1,27 @@
-// function getCurrentWindowActiveTabIndex () {
-//     return new Promise((resolve, reject) => {
-//         chrome.tabs.query({
-//             currentWindow: true,
-//             active: true,
-//         }, (currentWindowActiveTabs = []) => {
-//             if (!currentWindowActiveTabs.length) reject();
-//             resolve(currentWindowActiveTabs[0].index);
-//         });
-//     });
-// }
+function doInCurrentTab(tabCallback) {
+    chrome.tabs.query(
+        { currentWindow: true, active: true },
+        function (tabArray) { tabCallback(tabArray[0]); }
+    );
+}
+
+function blocker()
+{
+  alert("Page has been blocked!");
+}
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
-  // const tabId = getCurrentWindowActiveTabIndex();
-  // chrome.scripting.executeScript(
-  //     {
-  //       target: {tabID: tabID},
-  //       files: ['blocker.js'],
-  //     });
+
+  chrome.tabs.query(
+      {active: true, currentWindow: true},
+      (tabs) => {
+          chrome.scripting.executeScript(
+              {
+                  target: { tabId: tabs[0].id},
+                  func: blocker,
+              }
+          );
+      });
   console.log("Here");
 });
 
