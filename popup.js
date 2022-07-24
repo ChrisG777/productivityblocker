@@ -1,6 +1,6 @@
 var alarmClock = {
         setup: function() {
-             chrome.alarms.create("sitetimer", {delayInMinutes: 1, periodInMinutes: 1} );
+             chrome.alarms.create("sitetimer", {delayInMinutes: 1} );
                 window.close();
         }
 };
