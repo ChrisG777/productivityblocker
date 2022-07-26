@@ -7,7 +7,7 @@
   "action": {
     "default_popup": "popup.html"
   },
-  "host_permissions": ["http://*/*", "https://*/*", "file://*/*", "chrome://"],
+  "host_permissions": ["http://*/*", "https://*/*", "file://*/*"],
   "options_page": "options.html",
   "content_scripts": [ 
     {
@@ -16,6 +16,7 @@
     }
   ],
    "content_security_policy": {
+
     "extension_pages": "script-src 'self' ; object-src 'self'"
   },
   "background": {
