@@ -1,4 +1,4 @@
-const blockedSites = ["youtube.com"];
+var blockedSites = [];
 
 function timer()
 {
@@ -66,14 +66,22 @@ chrome.tabs.onActivated.addListener(info => {
 const processingTabId = {};
 
 function checkUrl(curUrl) {
-  for (i of blockedSites)
-  {
-    if (curUrl.includes(i))
-    {
-      return true;
-    }
-  }
-  return false; 
+  var flag = false;
+  chrome.storage.sync.get(["links"], function (linkarr) {
+      for (var i=0; i<linkarr.links.length; i++)
+      {
+        var element = linkarr.links[i];
+        if (curUrl.includes(element))
+        {
+          flag = true;
+        }
+      }
+      if (flag)
+      {
+        console.log("we set the alarm");
+        doToggleAlarm(currentUrl);
+      }
+});
 }
 
 function run(tab) {
@@ -83,11 +91,8 @@ function run(tab) {
     let newUrl = new URL(tab.url);
     currentHost = newUrl.host;
     currentUrl = tab.url;
-    console.log(currentUrl);
-    if (checkUrl(currentUrl))
-    {
-      doToggleAlarm(currentUrl);
-    }
+    //console.log(currentUrl);
+    checkUrl(currentUrl)
   }
 }
 
