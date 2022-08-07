@@ -24,9 +24,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
         if (found == false){
             return;
         } 
-        else {
-            chrome.tabs.update(tabs[tabnumber].id, {selected: true});
-        }
+        chrome.tabs.update(tabs[tabnumber].id, {selected: true});
         chrome.tabs.query(
           {active: true, currentWindow: true},
           (tabs) => {
@@ -36,6 +34,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
                       files: ['inject.js']
                   }
               );
+              doToggleAlarm(tabs[tabnumber].url, tabs[tabnumber].id);
           });
   });
 });
@@ -53,6 +52,8 @@ var alarmClock = {
 
 function doToggleAlarm(curUrl, curId) {
     alarmClock.setup(curId);
+
+    //check if the alarm was actually set
     chrome.alarms.getAll(function(alarms) {
        var hasAlarm = alarms.some(function(a) {
           chrome.tabs.query(
