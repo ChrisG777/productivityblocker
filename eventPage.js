@@ -5,7 +5,6 @@ function timer()
   alert("Timer has been set");
 }
 
-//freezing code taken from https://www.sitepoint.com/lock-freeze-web-page-jquery/
 
 /* 
 listener for alarms
@@ -13,7 +12,7 @@ listener for alarms
 chrome.alarms.onAlarm.addListener(function(alarm) {
   var curId = alarm.name;
   chrome.tabs.query({}, function (tabs) {
-      var found = false;
+      var flag = false;
       var tabnumber;
         for (var i = 0; i < tabs.length; i++) {
             if (tabs[i].id.toString() == curId.toString()){
@@ -21,7 +20,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
                 tabnumber = i;
             }
         }
-        if (found == false){
+        if (flag == false){
             return;
         } 
         chrome.tabs.update(tabs[tabnumber].id, {selected: true});
@@ -52,21 +51,15 @@ var alarmClock = {
 
 function doToggleAlarm(curUrl, curId) {
     alarmClock.setup(curId);
-
-    //check if the alarm was actually set
-    chrome.alarms.getAll(function(alarms) {
-       var hasAlarm = alarms.some(function(a) {
-          chrome.tabs.query(
-          {active: true, currentWindow: true},
-          (tabs) => {
-              chrome.scripting.executeScript(
-                  {
-                      target: { tabId: tabs[0].id},
-                      func: timer,
-                  }
-              );
-          });
-       });
+    chrome.tabs.query(
+    {active: true, currentWindow: true},
+    (tabs) => {
+        chrome.scripting.executeScript(
+            {
+                target: { tabId: tabs[0].id},
+                func: timer,
+            }
+        );
     });
 }
 
