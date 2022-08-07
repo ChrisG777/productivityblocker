@@ -5,24 +5,29 @@ function timer()
   alert("Timer has been set");
 }
 
-
+function checkIfContains (tabs, curId)
+{
+  flag = false;
+  for (var i=0; i < tabs.length; i++)
+  {
+    if (tabs[i].id.toString() == curId)
+    {
+      flag = true;
+      break;
+    }
+  }
+  return flag;
+} 
 /* 
 listener for alarms
 */
 chrome.alarms.onAlarm.addListener(function(alarm) {
   var curId = alarm.name;
   chrome.tabs.query({}, function (tabs) {
-      var flag = false;
-      var tabnumber;
-        for (var i = 0; i < tabs.length; i++) {
-            if (tabs[i].id.toString() == curId.toString()){
-                flag = true;
-                tabnumber = i;
-            }
+        if (!checkIfContains(tabs, curId))
+        {
+          return;
         }
-        if (flag == false){
-            return;
-        } 
         chrome.tabs.update(tabs[tabnumber].id, {selected: true});
         chrome.tabs.query(
           {active: true, currentWindow: true},
@@ -51,7 +56,7 @@ var alarmClock = {
 
 function doToggleAlarm(curUrl, curId) {
     alarmClock.setup(curId);
-    chrome.tabs.query(
+    chrome.tabs.query( 
     {active: true, currentWindow: true},
     (tabs) => {
         chrome.scripting.executeScript(
@@ -72,11 +77,25 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 chrome.tabs.onActivated.addListener(info => {
-    chrome.tabs.get(info.tabId, run);
+    chrome.tabs.query( {},
+      (tabs) => {
+        if (checkIfContains(tabs, info.tabId))
+        {
+          chrome.tabs.get(info.tabId, run);
+        }
+      }
+      )
 });
 
 chrome.tabs.onCreated.addListener(function(tab) {
-  setTimeout(function() {chrome.tabs.get(tab.id, run);}, 5000);
+  setTimeout(function() {chrome.tabs.query( {},
+      (tabs) => {
+        if (checkIfContains(tabs, tab.id))
+        {
+          chrome.tabs.get(tab.id, run);
+        }
+      }
+      );}, 5000);
 })
 
 const processingTabId = {};
@@ -121,11 +140,7 @@ function checkUrl(curUrl, curId) {
 }
 
 function run(tab) {
-  try {
-    var t = tab.id;
-  }
-  catch {
-    //if the tab doesn't exist anymore, ignore
+  if (typeof tab == 'undefined'){
     return;
   }
   if (processingTabId[tab.id]) return;
