@@ -1,26 +1,20 @@
 $(document).ready(function(){
   chrome.storage.sync.get(["links", "timertime", "blocktime"], function (linkarr) {
-    try {
+    
+    if (linkarr.links != null)
+    {
       for (element of linkarr.links)
       {
         document.getElementById("textinput").value += element + "\n";
       }
     }
-    catch (err) {
-      //nothing to iterate over
-    } 
-
-    try {
+    if (linkarr.timertime != null)
+    {
       document.getElementById("timermins").value = linkarr.timertime;
-    } 
-    catch (err) {
-
     }
-    try {
+    if (linkarr.blocktime != null)
+    {
       document.getElementById("blockermins").value = linkarr.blocktime;
-    }
-    catch (err) {
-
     }
   });
 
