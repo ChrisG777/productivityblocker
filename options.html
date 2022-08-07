@@ -11,9 +11,9 @@
       <label for="textinput">Input the list of websites to block, each on a new line</label> <br>
       <textarea id="textinput" rows="10" cols="50"></textarea> <br>
       <label for="timermins">Time (in minutes) before the site is blocked</label> <br>
-      <input type="number"id="timermins"min="1"placeholder="15"> <br>
+      <input type="number"id="timermins"min="1"placeholder="15" step="1" pattern="\d+" required> <br>
       <label for="blockermins">Time (in seconds) for which the site is frozen at the end of the timer</label> <br>
-      <input type="number"id="blockermins"min="1"placeholder="30"><br>
+      <input type="number"id="blockermins"min="1"placeholder="30"step="1" pattern="\d+" required><br>
       <input type="submit" value="Submit">
       </form>
       
