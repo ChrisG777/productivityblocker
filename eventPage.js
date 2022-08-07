@@ -113,7 +113,7 @@ function checkUrl(curUrl, curId) {
       }
     }
     catch (err) {
-      console.log("nothing in options yet");
+      //nothing in options yet
       return; 
     }
       
