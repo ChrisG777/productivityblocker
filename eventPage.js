@@ -16,7 +16,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
       var tabnumber;
         for (var i = 0; i < tabs.length; i++) {
             if (tabs[i].id.toString() == curId.toString()){
-                found = true;
+                flag = true;
                 tabnumber = i;
             }
         }
@@ -26,10 +26,10 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
         chrome.tabs.update(tabs[tabnumber].id, {selected: true});
         chrome.tabs.query(
           {active: true, currentWindow: true},
-          (tabs) => {
+          (actualtabs) => {
               chrome.scripting.executeScript(
                   {
-                      target: { tabId: tabs[0].id},
+                      target: { tabId: actualtabs[0].id},
                       files: ['inject.js']
                   }
               );
@@ -72,7 +72,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 chrome.tabs.onActivated.addListener(info => {
-  chrome.tabs.get(info.tabId, run);
+    chrome.tabs.get(info.tabId, run);
 });
 
 chrome.tabs.onCreated.addListener(function(tab) {
@@ -121,6 +121,13 @@ function checkUrl(curUrl, curId) {
 }
 
 function run(tab) {
+  try {
+    var t = tab.id;
+  }
+  catch {
+    //if the tab doesn't exist anymore, ignore
+    return;
+  }
   if (processingTabId[tab.id]) return;
   processingTabId[tab.id] = true;
   if (tab.url) {
