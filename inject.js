@@ -23,7 +23,9 @@ function blocker()
   document.body.appendChild(locker);
 
   var duration = 10;
-  update_clock(duration+1);
+  chrome.storage.sync.get(["blocktime"], function (blockertime) {
+    update_clock(parseInt(blockertime.blocktime)+1);
+  })
 }
 
 

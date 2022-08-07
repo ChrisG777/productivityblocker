@@ -7,8 +7,12 @@
   <body>
     <div>
       <form id="form1">
-      <p>Input the list of websites to block!</p>
-      <textarea id="textinput" rows="10" cols="50"></textarea>
+      <label for="textinput">Input the list of websites to block, each on a new line</label> <br>
+      <textarea id="textinput" rows="10" cols="50"></textarea> <br>
+      <label for="timermins">Time (in minutes) before the site is blocked</label> 
+      <input type="number"id="timermins"min="1"> <br>
+      <label for="blockermins">Time (in seconds) for which the site is frozen at the end of the timer</label>
+      <input type="number"id="blockermins"min="1"><br>
       <input type="submit" value="Submit">
       </form>
       

@@ -16,6 +16,8 @@ $(document).ready(function(){
   document.getElementById("form1").addEventListener("submit", function(e){
       e.preventDefault();
       var mytext = document.getElementById("textinput").value; 
+      var blocktime = document.getElementById("blockermins").value;
+      var timertime = document.getElementById("timermins").value;
       var newlinks = mytext.split("\n");
       var actuallinks = [];
       for (i=0; i<newlinks.length; i++)
@@ -26,7 +28,7 @@ $(document).ready(function(){
           actuallinks.push(newlinks[i]);
         }
       }
-      chrome.storage.sync.set({"links": actuallinks}, function() {
+      chrome.storage.sync.set({"links": actuallinks, "timertime": timertime, "blocktime": blocktime}, function() {
       alert("Saved");
       });
   });

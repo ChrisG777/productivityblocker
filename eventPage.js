@@ -45,7 +45,9 @@ creating an alarm
 */
 var alarmClock = {
         setup: function(curId) {
-             chrome.alarms.create(curId.toString(), {delayInMinutes: 1} );
+            chrome.storage.sync.get(["timertime"], function (timer) {
+              chrome.alarms.create(curId.toString(), {delayInMinutes: parseInt(timer.timertime)} );
+            })
         }
 };
 
@@ -132,7 +134,6 @@ function run(tab) {
     currentHost = newUrl.host;
     currentUrl = tab.url;
     currentId = tab.id;
-    //console.log(currentUrl);
     checkUrl(currentUrl, currentId);
   }
   setTimeout(function () {processingTabId[tab.id] = false;}, 1000);
