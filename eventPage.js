@@ -79,6 +79,10 @@ chrome.tabs.onActivated.addListener(info => {
   chrome.tabs.get(info.tabId, run);
 });
 
+chrome.tabs.onCreated.addListener(function(tab) {
+  setTimeout(function() {chrome.tabs.get(tab.id, run);}, 5000);
+})
+
 const processingTabId = {};
 
 function checkUrl(curUrl, curId) {
@@ -131,6 +135,7 @@ function run(tab) {
     //console.log(currentUrl);
     checkUrl(currentUrl, currentId);
   }
+  setTimeout(function () {processingTabId[tab.id] = false;}, 1000);
 }
 
 
