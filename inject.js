@@ -1,3 +1,6 @@
+//freezing code taken from or inspired by https://www.sitepoint.com/lock-freeze-web-page-jquery/
+
+
 function blocker()
 {
   // making all the html elements needed for the countdown
@@ -22,10 +25,11 @@ function blocker()
   locker.id = "uiLockId";
   document.body.appendChild(locker);
 
-  var duration = 10;
   chrome.storage.sync.get(["blocktime"], function (blockertime) {
     update_clock(parseInt(blockertime.blocktime)+1);
   })
+
+
 }
 
 
