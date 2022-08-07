@@ -95,7 +95,21 @@ function checkUrl(curUrl, curId) {
       }
       if (flag)
       {
-        doToggleAlarm(currentUrl, curId);
+        chrome.alarms.getAll(function (alarmarr){
+          var flag2 = false;
+          for (var i=0; i<alarmarr.length; i++)
+          {
+            if (alarmarr[i].name == curId.toString())
+            {
+              flag2 = true;
+              break;
+            }
+          }
+          if (!flag2)
+          {
+            doToggleAlarm(currentUrl, curId);
+          }
+        });
       }
     }
     catch (err) {
