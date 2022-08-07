@@ -1,10 +1,16 @@
 $(document).ready(function(){
   chrome.storage.sync.get(["links"], function (linkarr) {
+    try {
       for (element of linkarr.links)
       {
         //alert(element);
         document.getElementById("textinput").value += element + "\n";
       }
+    }
+    catch (err) {
+      //nothing to iterate over
+      return;
+    } 
   });
 
   document.getElementById("form1").addEventListener("submit", function(e){
