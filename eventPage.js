@@ -4,16 +4,14 @@ function timer()
 {
   alert("Timer has been set");
 }
-function blocker()
-{
-  alert("Page has been blocked!");
-}
+
+//freezing code taken from https://www.sitepoint.com/lock-freeze-web-page-jquery/
+
 /* 
 listener for alarms
 */
 chrome.alarms.onAlarm.addListener(function(alarm) {
   var curId = alarm.name;
-  console.log(curId);
   chrome.tabs.query({}, function (tabs) {
       var found = false;
       var tabnumber;
@@ -35,7 +33,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
               chrome.scripting.executeScript(
                   {
                       target: { tabId: tabs[0].id},
-                      func: blocker,
+                      files: ['inject.js']
                   }
               );
           });
@@ -86,6 +84,7 @@ const processingTabId = {};
 function checkUrl(curUrl, curId) {
   var flag = false;
   chrome.storage.sync.get(["links"], function (linkarr) {
+    try {
       for (var i=0; i<linkarr.links.length; i++)
       {
         var element = linkarr.links[i];
@@ -96,9 +95,14 @@ function checkUrl(curUrl, curId) {
       }
       if (flag)
       {
-        console.log("we set the alarm");
         doToggleAlarm(currentUrl, curId);
       }
+    }
+    catch (err) {
+      console.log("nothing in options yet");
+      return; 
+    }
+      
 });
 }
 
