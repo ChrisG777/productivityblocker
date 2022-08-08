@@ -3,7 +3,7 @@
   "description": "sets a timer when you go on unproductive websites",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": ["storage", "background", "alarms", "tabs", "activeTab", "scripting"],
+  "permissions": ["storage", "background", "alarms", "scripting"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
