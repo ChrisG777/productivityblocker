@@ -1,10 +1,11 @@
-var blockedSites = [];
-
 function timer()
 {
   alert("Timer has been set");
 }
 
+/*
+helper function to check if any of the tabs have a certain id
+*/
 function checkIfContains (tabs, curId)
 {
   flag = false;
@@ -18,16 +19,25 @@ function checkIfContains (tabs, curId)
   }
   return flag;
 } 
+
+
 /* 
-listener for alarms
+listener for alarms; calls the blocking script if an alarm goes off, and also sets up a new alarm
 */
 chrome.alarms.onAlarm.addListener(function(alarm) {
   var curId = alarm.name;
   chrome.tabs.query({}, function (tabs) {
-        if (!checkIfContains(tabs, curId))
-        {
-          return;
+        var flag = false;
+        var tabnumber;
+        for (var i = 0; i < tabs.length; i++) {
+            if (tabs[i].id.toString() == curId.toString()){
+                flag = true;
+                tabnumber = i;
+            }
         }
+        if (flag == false){
+            return;
+        } 
         chrome.tabs.update(tabs[tabnumber].id, {selected: true});
         chrome.tabs.query(
           {active: true, currentWindow: true},
@@ -38,24 +48,18 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
                       files: ['inject.js']
                   }
               );
-              doToggleAlarm(tabs[tabnumber].url, tabs[tabnumber].id);
+              doToggleAlarm(tabs[tabnumber].id);
           });
   });
 });
 
 /*
-creating an alarm
+creates alarm + notifies user that alarm has been created
 */
-var alarmClock = {
-        setup: function(curId) {
-            chrome.storage.sync.get(["timertime"], function (timer) {
-              chrome.alarms.create(curId.toString(), {delayInMinutes: parseInt(timer.timertime)} );
-            })
-        }
-};
-
-function doToggleAlarm(curUrl, curId) {
-    alarmClock.setup(curId);
+function doToggleAlarm(curId) {
+    chrome.storage.sync.get(["timertime"], function (timer) {
+      chrome.alarms.create(curId.toString(), {delayInMinutes: parseInt(timer.timertime)} );
+    })
     chrome.tabs.query( 
     {active: true, currentWindow: true},
     (tabs) => {
@@ -126,7 +130,7 @@ function checkUrl(curUrl, curId) {
           }
           if (!flag2)
           {
-            doToggleAlarm(currentUrl, curId);
+            doToggleAlarm(curId);
           }
         });
       }
