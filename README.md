@@ -1,5 +1,8 @@
 # softblocker
 
+This is an extension on the chrome web store! Check it out at https://chrome.google.com/webstore/detail/softblocker/gkcaacfdeihmjefmgedholhlihbljjfo. 
+
+
 This extension was built for people like me who don't want to commit to permanently banning unproductive sites on their computer but also don't have the willpower to manually start a lockdown every time they want to block productive sites. The extension is, as its name implies, a soft reminder to get back to work. 
 
 First, you choose a list of websites to mark as unproductive.
@@ -16,4 +19,4 @@ If you're on a different tab when the timer goes off, the extension will move yo
 NOTE THAT IN ORDER FOR THE EXTENSION TO WORK, YOU HAVE TO SET THE LIST OF BLOCKED WEBSITES, TIMER LENGTH, AND FREEZING TIME LENGTH. These can all be done by just clicking settings on the popup from the extension. 
 
 
-**Soon, this will be an extension on the chrome web store. Until then, you can download all the files in the github, save them as a folder, and then go to chrome://extensions and press "load unpacked" and select the folder to use the extension.**
+
